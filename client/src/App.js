@@ -1,4 +1,5 @@
-import './App.css';
+import Dashboard from './components/Dashboard';
+import './styles/global.scss';
 import { useState, useEffect } from "react";
 
 
@@ -17,19 +18,12 @@ function App() {
       })
   }, []);
 
-  const getRunningBalance = () => {
-    let balance = transactions[transactions.length - 1]["Running Balance"].toFixed(2);
-    return toNumberWithCommas(balance);
-  }
-
-  const toNumberWithCommas = (n) => {
-    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
-
   return (
-    <div className="App">
-      {loading ? <p>Loading...</p> : <p>Running Balance: ${getRunningBalance()} </p>}
-    </div>
+    <main>
+      <header className="card">Dashboard</header>
+      { loading ? <p>Loading...</p> :
+        <Dashboard transactions={transactions} />}
+    </main>
   );
 }
 

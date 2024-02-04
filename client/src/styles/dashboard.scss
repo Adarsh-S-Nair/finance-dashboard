@@ -1,0 +1,62 @@
+@import "./variables.scss";
+
+.dashboard {
+    grid-area: charts;
+    opacity: 1;
+    display: grid;
+    grid-template-areas:
+            "top-charts"
+            "bottom-chart";
+    grid-template-rows: 45% 45%;
+    gap: 2%;
+}
+
+.top-charts {
+    grid-area: top-charts;
+    display: grid;
+    grid-template-areas:
+            "left-charts middle-chart right-chart";
+    grid-template-columns: 32% 32% 32%;
+    gap: 2%;
+}
+
+.left-charts {
+    display: grid;
+    grid-area: left-charts;
+    grid-template-areas:
+            "timeframe"
+            "balance"
+            "earned-spent";
+    grid-template-rows: 15% 38% 38%;
+    gap: 4%;
+}
+
+.timeframe {
+    grid-area: timeframe;
+}
+
+.balance {
+    grid-area: balance;
+    background-image: linear-gradient(to bottom right, $light-green, $dark-green) !important;
+    position: relative;
+}
+
+.earned-spent {
+    grid-area: earned-spent;
+}
+
+.bottom-chart {
+    grid-area: bottom-chart;
+}
+
+.info {
+    width: 80%;
+    padding: 0 10%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.info * {
+    margin: 0;
+}

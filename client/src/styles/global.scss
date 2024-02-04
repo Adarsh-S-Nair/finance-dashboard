@@ -1,0 +1,66 @@
+@import "./variables.scss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+
+html, body, #root, main {
+  margin: 0;
+  height: 100%;
+  background-color: $main-bg;
+  color: $main-color;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+}
+
+h1 {
+  font-weight: 800;
+  font-size: 1.8rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+}
+
+h3 {
+  font-size: 0.87rem;
+}
+
+h4 {
+  font-size: 0.8rem;
+}
+
+h5 {
+  font-size: 0.77rem;
+}
+
+small {
+  font-size: 0.75rem;
+}
+
+main {
+  margin: 2%;
+  display: grid;
+  grid-template-areas: 
+        "header"
+        "charts";
+  grid-template-rows: 10% 88%;
+  gap: 2%;
+}
+
+header {
+  grid-area: header;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+  padding-left: 3%;
+}
+
+.card {
+  background-color: $dark-bg;
+  border-radius: 1rem;
+  box-shadow: $box-shadow;
+}
+
+.card p {
+  font-size: 0.4rem;
+  display: none;
+}
