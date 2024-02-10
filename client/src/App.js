@@ -33,9 +33,13 @@ function App() {
             <Sidebar />
             <main className='content'>
               <Topbar/>
+              {loading ? <h1>Loading...</h1> :
+              
               <Routes>
-                <Route path="/" element={ <Dashboard /> }/>
+                <Route path="/" element={ <Dashboard transactions={transactions}/> }/>
               </Routes>
+
+              }
             </main>
           </div>
       </ThemeProvider>
