@@ -36,7 +36,10 @@ const PieChart = (props) => {
             plugins: {
                 legend: {
                     display: false,
-                    position: "right"
+                    position: "right",
+                    labels: {
+                        color: "white"
+                    }
                 },
                 tooltip: {
                     backgroundColor: colors.primary[500],

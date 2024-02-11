@@ -8,21 +8,26 @@ const InfoCard = (props) => {
     const colors = tokens(theme.palette.mode)
 
     const determineChart = () => {
+        const containerStyle = { position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 10%)", width: "100%"}
         if (props.chart == "pie") {
-            return <PieChart data={props.data}/>
+            return (
+                <Box style={containerStyle}>
+                    <PieChart data={props.data}/>
+                </Box>
+            )
         } 
         else if (props.chart == "earned") {
-            console.log(props.data)
             let earnedPercentage = Math.round((props.data[0] / props.data[2]) * 100)
             let spentPercentage = Math.round((props.data[1] / props.data[2]) * 100)
-            console.log(`Earned Percentage: ${earnedPercentage}`)
-            console.log(`Spent Percentage: ${spentPercentage}`)
-            return (
-                <Box width="100%" m="0 30px">
-                    <Box height="10px" m="10px 0px" width={`${earnedPercentage}%`} backgroundColor={colors.greenAccent[600]} borderRadius="5px">
 
+            const style = {height: "20px", margin: "10px 30px", borderRadius: "2px", display: "flex", justifyContent: "center", alignItems: "center"}
+            return (
+                <Box mt="5px" style={containerStyle}>
+                    <Box style={style} width={`${earnedPercentage}%`} backgroundColor={colors.greenAccent[600]}>
+                        <h5>{`$${props.data[0]}`}</h5>
                     </Box>
-                    <Box height="10px" m="10px 0px" width={`${spentPercentage}%`} backgroundColor={colors.redAccent[600]} borderRadius="5px">
+                    <Box style={style} width={`${spentPercentage}%`} backgroundColor={colors.redAccent[600]}>
+                        <h5>{`$${props.data[1]}`}</h5>
                     </Box>
                 </Box>
             )
@@ -32,15 +37,13 @@ const InfoCard = (props) => {
     const infoContent = () => {
         return (
             <Box width="100%" m="0 30px">
-                <Box display="flex" justifyContent="space-between" margin="5% 0%">
-                    <Box>
-                        <Typography variant="h2" fontWeight="bold" sx={{color: colors.gray[100]}}>
+                <Box display="flex" justifyContent="space-between">
+                    <Typography variant="h1" fontWeight="bold" sx={{color: colors.gray[100]}}>
                             {props.title}
-                        </Typography>
-                    </Box>
+                    </Typography>
                 </Box>
                 <Box display="flex" justifyContent="space-between">
-                    <Typography variant="h6" fontWeight="bold" sx={{color: colors.greenAccent[500]}}>
+                    <Typography variant="h6" fontWeight="bold" sx={{color: colors.gray[100]}}>
                         {props.subtitle}
                     </Typography>
                 </Box>
@@ -50,22 +53,94 @@ const InfoCard = (props) => {
 
     const chartContent = () => {
         return (
-            <Box width="100%" m="0 30px">
-                <Typography variant="h5" fontWeight="bold">
-                    {props.title}
-                </Typography>
+            <Box width="100%" display="flex" flexDirection="column" height="100%">
+                <Box display="flex" justifyContent="space-between" alignItems="center" borderBottom={`2px solid ${colors.primary[500]}`}
+                 colors={colors.gray[100]} p="15px" backgroundColor={colors.blueAccent[700]}>
+                    <Typography colors={colors.gray[100]} variant="h5" fontStyle="bold" fontWeight="600">
+                        {props.title}
+                    </Typography>
+                </Box>
 
-                <Box display="flex" flexDirection="column" alignItems="center" mt="25px" width="100% !important">
+                <Box display="flex" flexDirection="column" alignItems="center" position="relative" width="100% !important">
                     {determineChart()}
                 </Box>
             </Box>
         )
     }
 
+    const tableContent = () => {
+        let transactions = props.data;
+        console.log(transactions.toReversed())
+        return (
+            <Box width="100%" display="flex" flexDirection="column" height="100%">
+                <Box display="flex" justifyContent="space-between" alignItems="center" borderBottom={`2px solid ${colors.primary[500]}`}
+                 colors={colors.gray[100]} p="15px" backgroundColor={colors.blueAccent[700]}>
+                    <Typography colors={colors.gray[100]} variant="h5" fontStyle="bold" fontWeight="600">
+                        Recent Transactions
+                    </Typography>
+                </Box>
+                <Box overflow="auto">
+                    {transactions.toReversed().map((transaction, i) => (
+                        <Box key={`${i}`} display="flex" justifyContent="space-between" alignItems="center" 
+                            borderBottom={`2px solid ${colors.primary[500]}`} p="10px">
+                                <Box display="flex" width="100%">
+                                    <Box width="20%">
+                                        <Typography variant="h9" fontStyle="bold">
+                                            {formatDate(transaction["Date"])}
+                                        </Typography>
+                                    </Box>
+                                    <Box width="40%">
+                                        <Typography variant="h9" fontStyle="bold">
+                                            {transaction["Description"]}
+                                        </Typography>
+                                    </Box>
+                                    <Box width="40%" textAlign="center" display="flex" justifyContent="center">
+                                        {
+                                            transaction['Debits'] === "" ?
+                                            (
+                                                <Box backgroundColor={colors.greenAccent[600]} width="30%" borderRadius="2px">
+                                                    <Typography variant="h7" fontStyle="bold" fontWeight="600">
+                                                        {props.monetize(Number(transaction['Income']))}
+                                                    </Typography>
+                                                </Box>
+                                            ) :
+                                            (
+                                                <Box backgroundColor={colors.redAccent[600]} width="30%" borderRadius="2px">
+                                                    <Typography variant="h7" fontStyle="bold" fontWeight="600">
+                                                        {props.monetize(Number(transaction['Debits']))}
+                                                    </Typography>
+                                                </Box>
+                                            )
+                                        }
+                                    </Box>
+                                </Box>
+                        </Box>
+                    ))}
+                </Box>
+            </Box>
+        )
+    }
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const month = (date.getMonth() + 1).toString();
+        const day = date.getDate().toString().padStart(2, '0');
+        const year = date.getFullYear().toString().slice(2);
+
+        return `${month}/${day}/${year}`;
+    }
+
+    const backgroundColor = props.chart === "info" ? colors.greenAccent[700] : colors.primary[400]
+
     return (
-        <Box gridColumn={`span ${props.width}`} backgroundColor={colors.primary[400]} gridRow={`span ${props.height}`}
+        <Box gridColumn={`span ${props.width}`} backgroundColor={backgroundColor} gridRow={`span ${props.height}`}
              display="flex" alignItems="center" justifyContent="center" className="card">
-            { props.isChart ? chartContent() : infoContent() }
+            {
+                props.chart === "pie" ? chartContent() :
+                props.chart === "info" ? infoContent() :
+                props.chart === "earned" ? chartContent() :
+                props.chart == "table" ? tableContent() : null
+            }
         </Box>
     )
 }

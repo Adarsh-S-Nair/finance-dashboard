@@ -18,6 +18,10 @@ const Dashboard = (props) => {
         return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
+    const monetizeNumber = (n) => {
+        return `$${toNumberWithCommas(n.toFixed(2))}`;
+    }
+
     const getPieData = () => {
         let categories = {}
         let data = []
@@ -62,13 +66,13 @@ const Dashboard = (props) => {
     return (
         <Box m="20px" overflow="auto">
             <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px" mr="20px">
-                <InfoCard width={3} height={1} title={getRunningBalance()} subtitle={"Current Balance"}/>
-                <InfoCard width={3} height={2} isChart={true} chart="pie" data={getPieData()} title="Spending Chart"/>
-                <InfoCard width={6} height={2} />
-                <InfoCard width={3} height={1} isChart={true} chart="earned" data={getEarnedData()} title="Earned vs Spent"/>
+                <InfoCard width={3} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"}/>
+                <InfoCard width={3} height={2} chart="pie" data={getPieData()} title="Spending Chart"/>
+                <InfoCard width={6} height={2} chart="table" data={transactions} monetize={monetizeNumber}/>
+                <InfoCard width={3} height={1} chart="earned" data={getEarnedData()} title="Earned vs Spent"/>
                 <InfoCard width={8} height={2} />
                 <InfoCard width={4} height={2} />
-                <InfoCard width={12} height={2} />
+                {/* <InfoCard width={12} height={2} /> */}
             </Box>
         </Box>
     )
