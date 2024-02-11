@@ -26,7 +26,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
         overflow: "hidden",
         transitionProperty: "all",
         transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-        transitionDuration: "150ms"
+        transitionDuration: "150ms",
+        width: "0px"
     }
 
     if (selected === title) {
@@ -40,6 +41,10 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     } else {
         textStyle.width = "0px";
     }
+
+    // textStyle.width = "13rem";
+    // textStyle.marginLeft = "0.75rem";
+    // textStyle.paddingTop = "0.2rem"
 
     return (
         <li active={`${selected === title}`} style={itemStyle} onClick={() => setSelected(title)}>
@@ -55,20 +60,14 @@ const SidebarContext = createContext();
 const Sidebar = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [expanded, setExpanded] = useState(window.innerWidth > 720);
+    const [expanded, setExpanded] = useState(false);
     const [selected, setSelected] = useState("Dashboard");
-
-    const handleResize = () => {
-        window.innerWidth < 720 ? setExpanded(false) : setExpanded(true)
-    }
-    
-    useEffect(() => {
-        window.addEventListener("resize", handleResize)
-    })
 
     const sideStyle = {
         height: "100vh",
-        backgroundColor: `${colors.primary[400]}`
+        backgroundColor: `${colors.primary[400]}`,
+        zIndex: '1',
+        boxShadow: '1px 1px 1vh 3px rgba(25, 25, 25, 0.9)'
     }
 
     const navStyle = {

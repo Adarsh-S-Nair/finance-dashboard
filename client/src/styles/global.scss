@@ -1,15 +1,28 @@
 @import "./variables.scss";
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-html, body, #root, .app, .content {
+html, body, #root, .app {
   height: 100%;
   width: 100%;
   font-family: 'Poppins', sans-serif;
 }
 
+.content {
+  width: calc(100% - 68.56px);
+}
+
 .app {
   display: flex;
   position: relative;
+}
+
+main, aside {
+  position: absolute;
+  top: 0;
+}
+
+main {
+  left: 68.56px;
 }
 
 ::-webkit-scrollbar {
