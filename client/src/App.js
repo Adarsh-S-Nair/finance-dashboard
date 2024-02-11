@@ -20,10 +20,21 @@ function App() {
     fetch(`${ENDPOINT}`)
       .then(res => res.json())
       .then(data => {
-        setTransactions(data)
+        data = cleanData(data)
+        setTransactions(data.slice(1))
         setLoading(false)
       })
   }, []);
+
+  const cleanData = (data) => {
+    // Round the running balances to 2
+    let cleaned = data.map((t) => {
+      let rounded = t["Running Balance"].toFixed(2);
+      t["Running Balance"] = rounded;
+      return t;
+    })
+    return cleaned
+  }
 
   return (
     <ColorModeContext.Provider value={colorMode}>

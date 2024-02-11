@@ -42,7 +42,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     }
 
     return (
-        <li active={selected === title} style={itemStyle} onClick={() => setSelected(title)}>
+        <li active={`${selected === title}`} style={itemStyle} onClick={() => setSelected(title)}>
             { icon }
             <span style={textStyle}>{title}</span>
             <Link to={to}/>
