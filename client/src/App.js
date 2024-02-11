@@ -20,7 +20,7 @@ function App() {
     fetch(`${ENDPOINT}`)
       .then(res => res.json())
       .then(data => {
-        data = cleanData(data)
+        data = cleanData(JSON.parse(data.data))
         setTransactions(data.slice(1))
         setLoading(false)
       })
@@ -42,7 +42,7 @@ function App() {
         <CssBaseline />
           <div className="app">
             <Sidebar />
-            <main className='content'>
+            <main className='content' style={{height: "100vh", display: "flex", flexDirection:"column", overflow:"hidden"}}>
               <Topbar/>
               {loading ? <h1>Loading...</h1> :
               

@@ -21,13 +21,13 @@ const Topbar = () => {
             <Box>
                 <h2>DASHBOARD</h2>
             </Box>
-            <Box display="flex" position="relative">
+            {/* <Box display="flex" position="relative">
                 <IconButton onClick={colorMode.toggleColorMode} style={verticalCenter}>
                     { theme.palette.mode === 'dark' ? 
                       <DarkModeOutlinedIcon /> :
                       <LightModeOutlinedIcon /> }
                 </IconButton>
-            </Box>
+            </Box> */}
         </Box>
     )
 }

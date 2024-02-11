@@ -46,14 +46,15 @@ const Dashboard = (props) => {
     }
 
     return (
-        <Box m="20px">
-            <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px">
+        <Box m="20px" overflow="auto">
+            <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px" mr="20px">
                 <InfoCard width={3} height={1} title={getRunningBalance()} subtitle={"Current Balance"}/>
                 <InfoCard width={3} height={2} isChart={true} data={getPieData()} />
                 <InfoCard width={6} height={2} />
                 <InfoCard width={3} height={1} />
                 <InfoCard width={8} height={2} />
                 <InfoCard width={4} height={2} />
+                <InfoCard width={12} height={2} />
             </Box>
         </Box>
     )

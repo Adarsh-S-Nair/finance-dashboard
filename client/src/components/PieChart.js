@@ -1,20 +1,29 @@
+import { useTheme } from "@emotion/react";
+import { tokens } from "../theme";
 import { useState } from "react";
 import { Doughnut, Pie } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 
 const PieChart = (props) => {
-    console.log(props.data);
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode)
+
     const [data, setData] = useState({
         labels: props.data.map((c) => c.category),
         datasets: [{
             label: "",
             data: props.data.map((c) => c.spent),
             backgroundColor: [
-                '#EE4266',
-                '#3CBBB1',
-                '#00FFF5',
-                "#FF8360",
-                "#9B1D20"
+                "#1b5542",
+                "#236d55",
+                "#2a8568",
+                "#329d7b",
+                "#3ab58d",
+                "#4ac59d",
+                "#62cdaa",
+                "#7ad5b7",
+                "#92dcc4",
+                "#aae4d1"
             ],
             borderWidth: 1
         }]
