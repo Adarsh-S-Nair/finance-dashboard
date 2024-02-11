@@ -25,7 +25,8 @@ const PieChart = (props) => {
                 "#92dcc4",
                 "#aae4d1"
             ],
-            borderWidth: 1
+            borderWidth: 1,
+            borderColor: colors.primary[400]
         }]
     })
 
@@ -36,6 +37,14 @@ const PieChart = (props) => {
                 legend: {
                     display: false,
                     position: "right"
+                },
+                tooltip: {
+                    backgroundColor: colors.primary[500],
+                    bodyAlign: "center",
+                    titleAlign: "center",
+                    displayColors: false,
+                    borderWidth: 1,
+                    borderColor: "white"
                 }
             }
         }}/>

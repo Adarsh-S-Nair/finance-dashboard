@@ -42,13 +42,6 @@ main {
   background: #1b2538;
 }
 
-.card {
-  background-color: $dark-bg;
-  border-radius: 1rem;
+.card:hover {
   box-shadow: $box-shadow;
-}
-
-.card p {
-  font-size: 0.4rem;
-  display: none;
 }

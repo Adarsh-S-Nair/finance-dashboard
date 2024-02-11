@@ -67,7 +67,7 @@ const Sidebar = () => {
         height: "100vh",
         backgroundColor: `${colors.primary[400]}`,
         zIndex: '1',
-        boxShadow: '1px 1px 1vh 3px rgba(25, 25, 25, 0.9)'
+        boxShadow: '0px 0px 5vh 1vh rgba(25, 25, 25, 0.7)'
     }
 
     const navStyle = {
