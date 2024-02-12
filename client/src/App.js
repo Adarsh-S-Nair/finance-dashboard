@@ -14,7 +14,7 @@ function App() {
   const [transactions, setTransactions] = useState(null);
 
 
-  const ENDPOINT = process.env.REACT_APP_SCRIPT_ENDPOINT;
+  const ENDPOINT = process.env.REACT_APP_SCRIPT_ENDPOINT_OLD;
 
   useEffect(() => {
     fetch(`${ENDPOINT}`)

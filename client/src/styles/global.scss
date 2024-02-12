@@ -42,6 +42,14 @@ main {
   background: #1b2538;
 }
 
+.table::-webkit-scrollbar-track {
+  background: #101624;
+}
+
+.table::-webkit-scrollbar-thumb {
+  background: #3e4396;
+}
+
 .card:hover {
   box-shadow: $box-shadow;
 }
