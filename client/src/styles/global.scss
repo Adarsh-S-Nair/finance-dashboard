@@ -26,6 +26,14 @@ main {
   left: 68.56px;
 }
 
+a {
+  text-decoration: none;
+}
+
+a:visited {
+  color: white;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

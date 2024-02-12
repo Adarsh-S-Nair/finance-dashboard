@@ -3,10 +3,11 @@ import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import TableRowsIcon from '@mui/icons-material/TableRows';
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
+const Item = ({ title, to, icon, selected, setActive, setExpanded }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const {expanded} = useContext(SidebarContext);
@@ -37,31 +38,26 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
     if (expanded) {
         textStyle.width = "13rem";
         textStyle.marginLeft = "0.75rem";
-        textStyle.paddingTop = "0.2rem"
     } else {
         textStyle.width = "0px";
     }
 
-    // textStyle.width = "13rem";
-    // textStyle.marginLeft = "0.75rem";
-    // textStyle.paddingTop = "0.2rem"
-
     return (
-        <li active={`${selected === title}`} style={itemStyle} onClick={() => setSelected(title)}>
+        <Link to={to} active={`${selected === title}`} style={itemStyle} onClick={() => {
+            setExpanded(false)
+            setActive(title)
+        }}>
             { icon }
             <span style={textStyle}>{title}</span>
-            <Link to={to}/>
-        </li>
+        </Link>
     )
 }
 
 const SidebarContext = createContext();
 
-const Sidebar = () => {
+const Sidebar = (props) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [expanded, setExpanded] = useState(false);
-    const [selected, setSelected] = useState("Dashboard");
 
     const sideStyle = {
         height: "100vh",
@@ -88,11 +84,12 @@ const Sidebar = () => {
         padding: "0 0.5rem"
     }
 
+    let expanded = props.expanded
     return (
         <aside style={sideStyle}>
             <nav style={navStyle}>
                 <div style={headerStyle}>
-                    <IconButton onClick={() => setExpanded(!expanded)}>
+                    <IconButton onClick={() => props.setExpanded(!expanded)}>
                         <MenuOutlinedIcon />
                     </IconButton>
                 </div>
@@ -102,9 +99,18 @@ const Sidebar = () => {
                         <Item
                             title="Dashboard"
                             to="/"
-                            icon={<HomeOutlinedIcon/>}
-                            selected={selected}
-                            setSelected={setSelected}
+                            icon={<DashboardIcon/>}
+                            selected={props.selected}
+                            setActive={props.setActive}
+                            setExpanded={props.setExpanded}
+                        />
+                        <Item
+                            title="Transactions"
+                            to="/transactions"
+                            icon={<TableRowsIcon/>}
+                            selected={props.selected}
+                            setActive={props.setActive}
+                            setExpanded={props.setExpanded}
                         />
                     </ul>
                 </SidebarContext.Provider>

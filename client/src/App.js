@@ -6,15 +6,23 @@ import { Routes, Route } from "react-router-dom";
 import Topbar from './scenes/global/Topbar';
 import Sidebar from './scenes/global/Sidebar';
 import Dashboard from './scenes/dashboard/Dashboard';
+import Transactions from './scenes/transactions/Transactions';
 
 
 function App() {
   const [loading, setLoading] = useState(true);
   const [theme, colorMode] = useMode(); 
   const [transactions, setTransactions] = useState(null);
+  const [selected, setSelected] = useState("Dashboard");
+  const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
 
   const ENDPOINT = process.env.REACT_APP_SCRIPT_ENDPOINT_OLD;
+
+  const setActive = (title) => {
+    setSelected(title)
+    setSidebarExpanded(false)
+  }
 
   useEffect(() => {
     fetch(`${ENDPOINT}`)
@@ -41,13 +49,14 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
           <div className="app">
-            <Sidebar />
+            <Sidebar selected={selected} setActive={setActive} expanded={sidebarExpanded} setExpanded={setSidebarExpanded}/>
             <main className='content' style={{height: "100vh", display: "flex", flexDirection:"column", overflow:"hidden"}}>
               <Topbar/>
               {loading ? <h1>Loading...</h1> :
               
               <Routes>
-                <Route path="/" element={ <Dashboard transactions={transactions}/> }/>
+                <Route path="/" element={ <Dashboard setActive={setActive} transactions={transactions}/> }/>
+                <Route path="/transactions" element={ <Transactions transactions={transactions}/> }/>
               </Routes>
 
               }

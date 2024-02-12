@@ -117,7 +117,7 @@ const Dashboard = (props) => {
             <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px" mr="20px">
                 <InfoCard width={3} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"}/>
                 <InfoCard width={3} height={2} chart="pie" data={getPieData()} title="Spending Chart"/>
-                <InfoCard width={6} height={2} chart="table" data={transactions} title="Recent Transactions" monetize={monetizeNumber}/>
+                <InfoCard width={6} height={2} chart="table" data={transactions} title="Recent Transactions" monetize={monetizeNumber} fullView={true} setActive={props.setActive}/>
                 <InfoCard width={3} height={1} chart="earned" data={getEarnedData()} title="Total Earned vs Spent"/>
                 <InfoCard width={8} height={2} chart="line" data={getLineData()} title={"Earned vs Spent Time Series"}/>
                 <InfoCard width={4} height={2} chart="expenses" data={getTopExpenses()} title={"Top Expenses"} monetize={monetizeNumber}/>

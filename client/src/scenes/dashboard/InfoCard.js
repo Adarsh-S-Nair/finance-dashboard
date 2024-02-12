@@ -3,6 +3,7 @@ import { tokens } from "../../theme";
 import { Box, Typography } from "@mui/material";
 import PieChart from "../../components/PieChart";
 import LineChart from "../../components/LineChart";
+import { Link } from "react-router-dom";
 
 const InfoCard = (props) => {
     const theme = useTheme();
@@ -86,6 +87,11 @@ const InfoCard = (props) => {
                     <Typography colors={colors.gray[100]} variant="h5" fontStyle="bold" fontWeight="600">
                         {props.title}
                     </Typography>
+                    {!props.fullView ? null :
+                    <Link to="/transactions" onClick={() => {props.setActive('Transactions')}} style={{textDecoration: "underline"}}>
+                        See full view
+                    </Link>
+                    }
                 </Box>
                 <Box style={{overflowY: "auto", overflowX: "hidden"}} className="table">
                     {transactions.map((transaction, i) => (
