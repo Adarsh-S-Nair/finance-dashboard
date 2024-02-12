@@ -42,6 +42,10 @@ main {
   background: #1b2538;
 }
 
+.table .item:hover {
+  background-color: #182132;
+}
+
 .table::-webkit-scrollbar-track {
   background: #101624;
 }

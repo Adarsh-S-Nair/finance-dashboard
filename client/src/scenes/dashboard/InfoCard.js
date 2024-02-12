@@ -87,10 +87,10 @@ const InfoCard = (props) => {
                         {props.title}
                     </Typography>
                 </Box>
-                <Box overflow="auto" className="table">
+                <Box style={{overflowY: "auto", overflowX: "hidden"}} className="table">
                     {transactions.map((transaction, i) => (
                         <Box key={`${i}`} display="flex" justifyContent="space-between" alignItems="center" 
-                            borderBottom={`1px solid ${colors.primary[500]}`} p="10px">
+                            borderBottom={`1px solid ${colors.primary[500]}`} p="10px" className="item">
                                 {
                                     isExpenses ?
                                      <Box display="flex" width="100%">
@@ -119,7 +119,7 @@ const InfoCard = (props) => {
                                                 {transaction["Description"]}
                                             </Typography>
                                         </Box>
-                                        <Box width="40%" textAlign="center" display="flex" justifyContent="center">
+                                        <Box width="40%" textAlign="center" display="flex" justifyContent="right">
                                             {
                                                 transaction['Debits'] === "" ?
                                                 (
