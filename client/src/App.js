@@ -2,7 +2,7 @@ import './styles/global.scss';
 import { useState, useEffect } from "react";
 import { ColorModeContext, useMode } from './theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Topbar from './scenes/global/Topbar';
 import Sidebar from './scenes/global/Sidebar';
 import Dashboard from './scenes/dashboard/Dashboard';
@@ -13,11 +13,18 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [theme, colorMode] = useMode(); 
   const [transactions, setTransactions] = useState(null);
-  const [selected, setSelected] = useState("Dashboard");
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
-
+  const location = useLocation();
   const ENDPOINT = process.env.REACT_APP_SCRIPT_ENDPOINT_OLD;
+
+  const getTitle = () => {
+    let title = location.pathname.slice(1)
+    if (title == "") title = "dashboard"
+    return title.charAt(0).toUpperCase() + title.slice(1);
+  }
+
+  const [selected, setSelected] = useState(getTitle());
 
   const setActive = (title) => {
     setSelected(title)
