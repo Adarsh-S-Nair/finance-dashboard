@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ColorModeContext, useMode } from './theme';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Routes, Route, useLocation } from "react-router-dom";
+import SignIn from './scenes/signin/signin';
 import Topbar from './scenes/global/Topbar';
 import Sidebar from './scenes/global/Sidebar';
 import Dashboard from './scenes/dashboard/Dashboard';
@@ -10,6 +11,7 @@ import Transactions from './scenes/transactions/Transactions';
 
 
 function App() {
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('authUser')));
   const [loading, setLoading] = useState(true);
   const [theme, colorMode] = useMode(); 
   const [startingBalance, setStartingBalance] = useState(0);
@@ -17,7 +19,6 @@ function App() {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
   const location = useLocation();
-  const ENDPOINT = process.env.REACT_APP_SCRIPT_ENDPOINT;
 
   const getTitle = () => {
     let title = location.pathname.slice(1)
@@ -33,7 +34,9 @@ function App() {
   }
 
   useEffect(() => {
-    fetch(`${ENDPOINT}`)
+    if (!user) return;
+    setLoading(true)
+    fetch(user["GET URL"])
       .then(res => res.json())
       .then(data => {
         data = cleanData(JSON.parse(data.data))
@@ -41,7 +44,7 @@ function App() {
         setTransactions(data.slice(1))
         setLoading(false)
       })
-  }, []);
+  }, [user]);
 
   const cleanData = (data) => {
     // Round the running balances to 2
@@ -58,18 +61,22 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
           <div className="app">
-            <Sidebar selected={selected} setActive={setActive} expanded={sidebarExpanded} setExpanded={setSidebarExpanded}/>
-            <main className='content' style={{height: "100vh", display: "flex", flexDirection:"column", overflow:"hidden"}}>
-              <Topbar/>
-              {loading ? <h1>Loading...</h1> :
-              
-              <Routes>
-                <Route path="/" element={ <Dashboard setActive={setActive} transactions={transactions} startingBalance={startingBalance}/> }/>
-                <Route path="/transactions" element={ <Transactions transactions={transactions}/> }/>
-              </Routes>
+            {!user ? <SignIn setUser={setUser} /> :
+            <>
+              <Sidebar selected={selected} setActive={setActive} expanded={sidebarExpanded} setExpanded={setSidebarExpanded} setUser={setUser} />
+              <main className='content' style={{height: "100vh", display: "flex", flexDirection:"column", overflow:"hidden"}}>
+                <Topbar/>
+                {loading ? <h1>Loading...</h1> :
+                
+                <Routes>
+                  <Route path="/" element={ <Dashboard setActive={setActive} transactions={transactions} startingBalance={startingBalance}/> }/>
+                  <Route path="/transactions" element={ <Transactions transactions={transactions}/> }/>
+                </Routes>
 
-              }
-            </main>
+                }
+              </main>
+            </>
+            }
           </div>
       </ThemeProvider>
     </ColorModeContext.Provider>

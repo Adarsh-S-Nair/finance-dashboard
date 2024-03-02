@@ -6,8 +6,9 @@ import { tokens } from "../../theme";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import TableRowsIcon from '@mui/icons-material/TableRows';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-const Item = ({ title, to, icon, selected, setActive, setExpanded }) => {
+const Item = ({ title, to, icon, selected, setActive, setExpanded, setUser }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const {expanded} = useContext(SidebarContext);
@@ -42,8 +43,17 @@ const Item = ({ title, to, icon, selected, setActive, setExpanded }) => {
         textStyle.width = "0px";
     }
 
+    const logout = title === "Logout"
+    const logoutStyle = {
+        ...itemStyle, position: 'absolute', bottom: '20px'
+    }
     return (
-        <Link to={to} active={`${selected === title}`} style={itemStyle} onClick={() => {
+        <Link to={to} active={`${selected === title}`} style={logout ? logoutStyle : itemStyle} onClick={() => {
+            if (logout) {
+                localStorage.removeItem('authUser');
+                setUser(null);
+                return;
+            }
             setExpanded(false)
             setActive(title)
         }}>
@@ -95,7 +105,7 @@ const Sidebar = (props) => {
                 </div>
 
                 <SidebarContext.Provider value={{expanded}}>
-                    <ul style={listStyle}>
+                    <ul style={listStyle} height="80%">
                         <Item
                             title="Dashboard"
                             to="/"
@@ -111,6 +121,17 @@ const Sidebar = (props) => {
                             selected={props.selected}
                             setActive={props.setActive}
                             setExpanded={props.setExpanded}
+                        />
+                    </ul>
+                    <ul style={listStyle}>
+                        <Item
+                            title="Logout"
+                            to="/"
+                            icon={<LogoutIcon/>}
+                            selected={props.selected}
+                            setActive={props.setActive}
+                            setExpanded={props.setExpanded}
+                            setUser={props.setUser}
                         />
                     </ul>
                 </SidebarContext.Provider>
