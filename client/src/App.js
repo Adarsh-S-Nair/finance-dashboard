@@ -12,11 +12,12 @@ import Transactions from './scenes/transactions/Transactions';
 function App() {
   const [loading, setLoading] = useState(true);
   const [theme, colorMode] = useMode(); 
+  const [startingBalance, setStartingBalance] = useState(0);
   const [transactions, setTransactions] = useState(null);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
 
   const location = useLocation();
-  const ENDPOINT = process.env.REACT_APP_SCRIPT_ENDPOINT_OLD;
+  const ENDPOINT = process.env.REACT_APP_SCRIPT_ENDPOINT;
 
   const getTitle = () => {
     let title = location.pathname.slice(1)
@@ -36,6 +37,7 @@ function App() {
       .then(res => res.json())
       .then(data => {
         data = cleanData(JSON.parse(data.data))
+        setStartingBalance(data[0])
         setTransactions(data.slice(1))
         setLoading(false)
       })
@@ -62,7 +64,7 @@ function App() {
               {loading ? <h1>Loading...</h1> :
               
               <Routes>
-                <Route path="/" element={ <Dashboard setActive={setActive} transactions={transactions}/> }/>
+                <Route path="/" element={ <Dashboard setActive={setActive} transactions={transactions} startingBalance={startingBalance}/> }/>
                 <Route path="/transactions" element={ <Transactions transactions={transactions}/> }/>
               </Routes>
 

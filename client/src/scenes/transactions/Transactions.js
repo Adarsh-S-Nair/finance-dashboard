@@ -43,7 +43,6 @@ const Transactions = (props) => {
         transactions = transactions.map(({ Income, Debits, ...rest }) => rest);
         // Monetize the running balance column
         transactions = transactions.map(r =>  ({ ...r, 'Running Balance': `$${toNumberWithCommas(Number(r['Running Balance']).toFixed(2))}`}))
-        console.log(transactions);
         return transactions
     }
 
@@ -77,7 +76,7 @@ const Transactions = (props) => {
                     backgroundColor: colors.blueAccent[700]
                 },
                 "& .MuiDataGrid-withBorderColor ": {
-                    borderColor: colors.primary[500]
+                    borderColor: colors.primary[600]
                 },
                 "& .MuiDataGrid-cellContent": {
                     fontWeight: "600",

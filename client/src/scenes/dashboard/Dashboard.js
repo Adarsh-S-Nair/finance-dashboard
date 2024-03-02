@@ -8,6 +8,7 @@ const Dashboard = (props) => {
     const colors = tokens(theme.palette.mode)
 
     let transactions = props.transactions;
+    let startingBalance = props.startingBalance;
 
     const getRunningBalance = () => {
         let balance = transactions[transactions.length - 1]["Running Balance"];
@@ -79,15 +80,15 @@ const Dashboard = (props) => {
 
             let expense = t['Description']
             if (!(expense in expenses))
-                expenses[expense] = {}
+                expenses[expense] = { spent: 0 }
 
-            expenses[expense].spent = t['Debits']
+            expenses[expense].spent += Number(t['Debits'])
         })
+
         Object.keys(expenses).forEach(e => {
             data.push({ expenses: e, spent: expenses[e].spent })
         })
         data.sort(compare)
-        console.log(data);
         return data;
     }
 
@@ -111,15 +112,23 @@ const Dashboard = (props) => {
         let higher = earned > spent ? earned : spent;
         return [earned.toFixed(2), spent.toFixed(2), higher * 1.5]
     }
+
+    const getTotalChange = () => {
+        let initial = Number(startingBalance['Running Balance'])
+        let final = Number(transactions[transactions.length - 1]['Running Balance'])
+        
+        let change = Number(((final - initial) / initial) * 100).toFixed(2)
+        return change;
+    }
     
     return (
         <Box m="20px" overflow="auto">
             <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px" mr="20px">
-                <InfoCard width={3} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"}/>
+                <InfoCard width={3} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"} change={getTotalChange()}/>
                 <InfoCard width={3} height={2} chart="pie" data={getPieData()} title="Spending Chart"/>
                 <InfoCard width={6} height={2} chart="table" data={transactions} title="Recent Transactions" monetize={monetizeNumber} fullView={true} setActive={props.setActive}/>
                 <InfoCard width={3} height={1} chart="earned" data={getEarnedData()} title="Total Earned vs Spent"/>
-                <InfoCard width={8} height={2} chart="line" data={getLineData()} title={"Earned vs Spent Time Series"}/>
+                <InfoCard width={8} height={2} chart="line" data={getLineData()} title={"Earned vs Spent Time Series"} dropdown={true}/>
                 <InfoCard width={4} height={2} chart="expenses" data={getTopExpenses()} title={"Top Expenses"} monetize={monetizeNumber}/>
                 {/* <InfoCard width={12} height={2} /> */}
             </Box>

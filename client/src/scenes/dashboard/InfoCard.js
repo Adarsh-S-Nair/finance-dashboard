@@ -4,10 +4,12 @@ import { Box, Typography } from "@mui/material";
 import PieChart from "../../components/PieChart";
 import LineChart from "../../components/LineChart";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const InfoCard = (props) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode)
+    const colors = tokens(theme.palette.mode);
+    const [chartType, setChartType] = useState("Line")
 
     const determineChart = () => {
         const containerStyle = { position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, 10%)", width: "100%"}
@@ -44,6 +46,7 @@ const InfoCard = (props) => {
     }
 
     const infoContent = () => {
+        let change = props.change
         return (
             <Box width="100%" m="0 30px">
                 <Box display="flex" justifyContent="space-between">
@@ -54,6 +57,9 @@ const InfoCard = (props) => {
                 <Box display="flex" justifyContent="space-between">
                     <Typography variant="h6" fontWeight="bold" sx={{color: colors.gray[100]}}>
                         {props.subtitle}
+                    </Typography>
+                    <Typography variant="h6" fontWeight="bold" sx={{color: change < 0 ? colors.redAccent[500] : colors.greenAccent[500]}}>
+                        {`${change < 0 ? '- ' : '+ '}${props.change}%`}
                     </Typography>
                 </Box>
             </Box>
@@ -68,6 +74,11 @@ const InfoCard = (props) => {
                     <Typography colors={colors.gray[100]} variant="h5" fontStyle="bold" fontWeight="600">
                         {props.title}
                     </Typography>
+                    {props.dropdown ?
+                        <Typography>
+                            {`${chartType} Chart`}
+                        </Typography> : null
+                    }
                 </Box>
 
                 <Box display="flex" flexDirection="column" alignItems="center" position="relative" width="100% !important">
@@ -162,7 +173,8 @@ const InfoCard = (props) => {
         return `${month}/${day}/${year}`;
     }
 
-    const backgroundColor = props.chart === "info" ? colors.greenAccent[700] : colors.primary[400]
+    // const backgroundColor = props.chart === "info" ? colors.greenAccent[700] : colors.primary[400]
+    const backgroundColor = colors.primary[400]
 
     return (
         <Box gridColumn={`span ${props.width}`} backgroundColor={backgroundColor} gridRow={`span ${props.height}`}
