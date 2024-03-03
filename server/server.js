@@ -44,6 +44,10 @@ app.post('/api/user-data', async (req, res) => {
     }
 })
 
+app.use('/', (req, res) => {
+    res.send("Server is running.");
+})
+
 // Start server
 const PORT = process.env.PORT || 5050;
 app.listen(PORT, () => {
