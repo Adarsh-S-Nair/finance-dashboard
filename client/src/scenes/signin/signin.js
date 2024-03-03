@@ -50,9 +50,18 @@ const SignIn = (props) => {
     }
 
     const fetchUsers = () => {
-        return fetch(process.env.REACT_APP_USERS)
-                    .then(res => res.json())
-                    .then(data => JSON.parse(data.data));
+        return fetch(`${props.BASE_URL}/api/users`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Failed to fetch users');
+                    }
+                    return res.json();
+                })
+                .then(data => JSON.parse(data.data))
+                .catch(error => {
+                    console.error('Error fetching users:', error);
+                    throw error;
+                });
     }
 
     const handleLogin = (event) => {

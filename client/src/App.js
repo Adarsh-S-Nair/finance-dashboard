@@ -11,6 +11,7 @@ import Transactions from './scenes/transactions/Transactions';
 
 
 function App() {
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('authUser')));
   const [loading, setLoading] = useState(true);
   const [theme, colorMode] = useMode(); 
@@ -36,8 +37,11 @@ function App() {
   useEffect(() => {
     if (!user) return;
     setLoading(true)
-    fetch(user["GET URL"])
-      .then(res => res.json())
+
+    fetch(`${BASE_URL}/api/user-data`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ getUrl: user["GET URL"] })
+    }).then(res => res.json())
       .then(data => {
         data = cleanData(JSON.parse(data.data))
         setStartingBalance(data[0])
@@ -61,7 +65,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
           <div className="app">
-            {!user ? <SignIn setUser={setUser} /> :
+            {!user ? <SignIn setUser={setUser} BASE_URL={BASE_URL}/> :
             <>
               <Sidebar selected={selected} setActive={setActive} expanded={sidebarExpanded} setExpanded={setSidebarExpanded} setUser={setUser} />
               <main className='content' style={{height: "100vh", display: "flex", flexDirection:"column", overflow:"hidden"}}>
