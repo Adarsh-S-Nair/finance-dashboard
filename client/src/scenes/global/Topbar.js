@@ -1,4 +1,4 @@
-import { Box, IconButton, useTheme } from '@mui/material';
+import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { useContext } from 'react';
 import { ColorModeContext, tokens } from "../../theme";
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined';
@@ -11,13 +11,6 @@ const Topbar = () => {
     const colorMode = useContext(ColorModeContext);
     const location = useLocation();
 
-    const verticalCenter = {
-        position: "absolute",
-        top: "50%", left: "50%",
-        transform: "translate(-90%, -50%)",
-        width: "50px", height: "50px"
-    }
-
     const getTitle = () => {
         let title = location.pathname.slice(1)
         if (title == "") title = "dashboard"
@@ -27,7 +20,7 @@ const Topbar = () => {
     return (
         <Box display="flex" justifyContent="space-between" p={2}>
             <Box>
-                <h2>{getTitle()}</h2>
+                <Typography variant="h2" fontStyle="bold" fontWeight="600">{getTitle()}</Typography>
             </Box>
             {/* <Box display="flex" position="relative">
                 <IconButton onClick={colorMode.toggleColorMode} style={verticalCenter}>

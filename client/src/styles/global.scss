@@ -9,7 +9,7 @@ html, body, #root, .app {
 }
 
 .content {
-  width: calc(100% - 68.56px);
+  width: calc(100% - var(--main-left));
 }
 
 .app {
@@ -23,7 +23,8 @@ main, aside {
 }
 
 main {
-  left: 68.56px;
+  --main-left: 68.56px;
+  left: var(--main-left);
 }
 
 a {
@@ -70,4 +71,13 @@ a:visited {
 
 .card:hover {
   box-shadow: $box-shadow;
+}
+
+@media screen and (max-width: 480px) {
+  aside {
+    display: none;
+  }
+  main {
+    --main-left: 0px;
+  }
 }

@@ -21,6 +21,28 @@ function App() {
 
   const location = useLocation();
 
+  const determineGridLayout = () => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth >= 986) return 'desktop';
+    if (windowWidth >= 830) return 'tablet-1'
+    if (windowWidth >= 713) return 'tablet-2'
+    if (windowWidth >= 600) return 'tablet-3';
+    return 'mobile';
+  }
+
+  const [size, setSize] = useState(determineGridLayout());
+
+  useEffect(() => {
+      const handleResize = () => {
+          setSize(determineGridLayout())
+      };
+      handleResize();
+      window.addEventListener('resize', handleResize);
+      return () => {
+          window.removeEventListener('resize', handleResize);
+      };
+  }, []) 
+
   const getTitle = () => {
     let title = location.pathname.slice(1)
     if (title == "") title = "dashboard"
@@ -66,20 +88,20 @@ function App() {
         <CssBaseline />
           <div className="app">
             {!user ? <SignIn setUser={setUser} BASE_URL={BASE_URL}/> :
-            <>
+            <div className="app">
               <Sidebar selected={selected} setActive={setActive} expanded={sidebarExpanded} setExpanded={setSidebarExpanded} setUser={setUser} />
               <main className='content' style={{height: "100vh", display: "flex", flexDirection:"column", overflow:"hidden"}}>
                 <Topbar/>
                 {loading ? <h1>Loading...</h1> :
                 
                 <Routes>
-                  <Route path="/" element={ <Dashboard setActive={setActive} transactions={transactions} startingBalance={startingBalance}/> }/>
+                  <Route path="/" element={ <Dashboard setActive={setActive} transactions={transactions} startingBalance={startingBalance} size={size}/> }/>
                   <Route path="/transactions" element={ <Transactions transactions={transactions}/> }/>
                 </Routes>
 
                 }
               </main>
-            </>
+            </div>
             }
           </div>
       </ThemeProvider>

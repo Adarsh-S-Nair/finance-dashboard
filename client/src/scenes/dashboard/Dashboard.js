@@ -2,10 +2,12 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { Box } from "@mui/material";
 import InfoCard from "./InfoCard";
+import { useEffect, useState } from "react";
 
 const Dashboard = (props) => {
     const theme = useTheme();
-    const colors = tokens(theme.palette.mode)
+    const colors = tokens(theme.palette.mode);
+    const size = props.size;
 
     let transactions = props.transactions;
     let startingBalance = props.startingBalance;
@@ -120,17 +122,58 @@ const Dashboard = (props) => {
         let change = Number(((final - initial) / initial) * 100).toFixed(2)
         return change;
     }
-    
+
+    const cardSizes = {
+        desktop: [[3, 1], [3, 2], [6, 2], [3, 1], [8, 2], [4, 2]],
+        tablet: [[6, 1], [6, 2], [12, 2], [6, 1], [12, 2], [6, 2]],
+        mobile: [[12, 1], [12, 2], [12, 2], [12, 1], [12, 2], [12, 2]]
+    }
+
     return (
         <Box m="20px" overflow="auto">
             <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px" mr="20px">
-                <InfoCard width={3} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"} change={getTotalChange()}/>
-                <InfoCard width={3} height={2} chart="pie" data={getPieData()} title="Spending Chart"/>
-                <InfoCard width={6} height={2} chart="table" data={transactions} title="Recent Transactions" monetize={monetizeNumber} fullView={true} setActive={props.setActive}/>
-                <InfoCard width={3} height={1} chart="earned" data={getEarnedData()} title="Total Earned vs Spent"/>
-                <InfoCard width={8} height={2} chart="line" data={getLineData()} title={"Earned vs Spent Time Series"} dropdown={true}/>
-                <InfoCard width={4} height={2} chart="expenses" data={getTopExpenses()} title={"Top Expenses"} monetize={monetizeNumber}/>
-                {/* <InfoCard width={12} height={2} /> */}
+                { size === "desktop" ? 
+                <>
+                    <InfoCard width={3} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"} change={getTotalChange()}/>
+                    <InfoCard width={3} height={2} chart="pie" data={getPieData()} title="Spending Chart"/>
+                    <InfoCard width={6} height={2} chart="table" data={transactions} title="Recent Transactions" monetize={monetizeNumber} fullView={true} setActive={props.setActive}/>
+                    <InfoCard width={3} height={1} chart="earned" data={getEarnedData()} title="Total Earned vs Spent"/>
+                    <InfoCard width={8} height={2} chart="line" data={getLineData()} title={"Earned vs Spent Time Series"} dropdown={true}/>
+                    <InfoCard width={4} height={2} chart="expenses" data={getTopExpenses()} title={"Top Expenses"} monetize={monetizeNumber}/>
+                </> : size === "tablet-1" ?
+                <>
+                    <InfoCard width={6} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"} change={getTotalChange()}/>
+                    <InfoCard width={6} height={2} chart="pie" data={getPieData()} title="Spending Chart"/>
+                    <InfoCard width={6} height={1} chart="earned" data={getEarnedData()} title="Total Earned vs Spent"/>
+                    <InfoCard width={8} height={2} chart="table" data={transactions} title="Recent Transactions" monetize={monetizeNumber} fullView={true} setActive={props.setActive}/>
+                    <InfoCard width={4} height={2} chart="expenses" data={getTopExpenses()} title={"Top Expenses"} monetize={monetizeNumber}/>
+                    <InfoCard width={12} height={2} chart="line" data={getLineData()} title={"Earned vs Spent Time Series"} dropdown={true}/>
+                </> : size === "tablet-2" ? 
+                <>
+                    <InfoCard width={6} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"} change={getTotalChange()}/>
+                    <InfoCard width={6} height={2} chart="pie" data={getPieData()} title="Spending Chart"/>
+                    <InfoCard width={6} height={1} chart="earned" data={getEarnedData()} title="Total Earned vs Spent"/>
+                    <InfoCard width={7} height={2} chart="table" data={transactions} title="Recent Transactions" monetize={monetizeNumber} fullView={true} setActive={props.setActive}/>
+                    <InfoCard width={5} height={2} chart="expenses" data={getTopExpenses()} title={"Top Expenses"} monetize={monetizeNumber}/>
+                    <InfoCard width={12} height={2} chart="line" data={getLineData()} title={"Earned vs Spent Time Series"} dropdown={true}/>
+                </> : size === "tablet-3" ? 
+                <>
+                    <InfoCard width={6} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"} change={getTotalChange()}/>
+                    <InfoCard width={6} height={2} chart="expenses" data={getTopExpenses()} title={"Top Expenses"} monetize={monetizeNumber}/>
+                    <InfoCard width={6} height={1} chart="earned" data={getEarnedData()} title="Total Earned vs Spent"/>
+                    <InfoCard width={12} height={2} chart="pie" data={getPieData()} title="Spending Chart"/>
+                    <InfoCard width={12} height={2} chart="table" data={transactions} title="Recent Transactions" monetize={monetizeNumber} fullView={true} setActive={props.setActive}/>
+                    <InfoCard width={12} height={2} chart="line" data={getLineData()} title={"Earned vs Spent Time Series"} dropdown={true}/>
+                </> :
+                <>
+                    <InfoCard width={12} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"} change={getTotalChange()}/>
+                    <InfoCard width={12} height={1} chart="earned" data={getEarnedData()} title="Total Earned vs Spent"/>
+                    <InfoCard width={12} height={2} chart="pie" data={getPieData()} title="Spending Chart"/>
+                    <InfoCard width={12} height={2} chart="expenses" data={getTopExpenses()} title={"Top Expenses"} monetize={monetizeNumber}/>
+                    <InfoCard width={12} height={2} chart="table" data={transactions} title="Recent Transactions" monetize={monetizeNumber} fullView={true} setActive={props.setActive}/>
+                    <InfoCard width={12} height={2} chart="line" data={getLineData()} title={"Earned vs Spent Time Series"} dropdown={true}/>
+                </>
+                }
             </Box>
         </Box>
     )
