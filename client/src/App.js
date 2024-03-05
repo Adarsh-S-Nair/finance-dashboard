@@ -90,7 +90,7 @@ function App() {
             {!user ? <SignIn setUser={setUser} BASE_URL={BASE_URL}/> :
             <div className="app">
               <Sidebar selected={selected} setActive={setActive} expanded={sidebarExpanded} setExpanded={setSidebarExpanded} setUser={setUser} />
-              <main className='content' style={{height: "100vh", display: "flex", flexDirection:"column", overflow:"hidden"}}>
+              <main className='content' style={{height: "100vh", display: "flex", flexDirection:"column", overflow:"auto"}}>
                 <Topbar/>
                 {loading ? <h1>Loading...</h1> :
                 

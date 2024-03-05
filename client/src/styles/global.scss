@@ -5,11 +5,11 @@ html, body, #root, .app {
   height: 100%;
   width: 100%;
   font-family: 'Poppins', sans-serif;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .content {
-  width: calc(100% - var(--main-left));
+  width: calc(100vw - var(--main-left));
 }
 
 .app {
@@ -36,7 +36,7 @@ a:visited {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 3px;
 }
 
 ::-webkit-scrollbar-track {
@@ -45,6 +45,7 @@ a:visited {
 
 ::-webkit-scrollbar-thumb {
   background: #1f2a40;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

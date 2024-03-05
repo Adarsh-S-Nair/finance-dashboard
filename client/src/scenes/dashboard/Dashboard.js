@@ -130,8 +130,8 @@ const Dashboard = (props) => {
     }
 
     return (
-        <Box m="20px" overflow="auto">
-            <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px" mr="20px">
+        <Box m="20px">
+            <Box display="grid" gridTemplateColumns="repeat(12, 1fr)" gridAutoRows="140px" gap="20px" mr="0px">
                 { size === "desktop" ? 
                 <>
                     <InfoCard width={3} height={1} chart="info" title={getRunningBalance()} subtitle={"Current Balance"} change={getTotalChange()}/>
