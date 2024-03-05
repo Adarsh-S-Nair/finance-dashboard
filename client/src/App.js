@@ -26,7 +26,7 @@ function App() {
     if (windowWidth >= 986) return 'desktop';
     if (windowWidth >= 830) return 'tablet-1'
     if (windowWidth >= 713) return 'tablet-2'
-    if (windowWidth >= 600) return 'tablet-3';
+    if (windowWidth >= 526) return 'tablet-3';
     return 'mobile';
   }
 
@@ -89,7 +89,7 @@ function App() {
           <div className="app">
             {!user ? <SignIn setUser={setUser} BASE_URL={BASE_URL}/> :
             <div className="app">
-              <Sidebar selected={selected} setActive={setActive} expanded={sidebarExpanded} setExpanded={setSidebarExpanded} setUser={setUser} />
+              <Sidebar selected={selected} setActive={setActive} expanded={sidebarExpanded} setExpanded={setSidebarExpanded} setUser={setUser} size={size} />
               <main className='content' style={{height: "100vh", display: "flex", flexDirection:"column", overflow:"auto"}}>
                 <Topbar/>
                 {loading ? <h1>Loading...</h1> :
